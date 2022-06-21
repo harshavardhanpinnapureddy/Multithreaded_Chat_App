@@ -31,7 +31,7 @@ def send_message_to_server(client):
             client.sendall(message.encode())
         if message=="exit":
             flag=0
-            exit(0)
+            sys.exit()
 
 def communicate_to_server(client):
     username=input('Enter username : ')
@@ -41,7 +41,9 @@ def communicate_to_server(client):
         print('Username cannot be empty')
         exit(0)
 
-    threading.Thread(target=listen_to_server, args=(client, flag)).start()
+    x=threading.Thread(target=listen_to_server, args=(client, flag))
+    x.daemon=True
+    x.start()
     send_message_to_server(client)
 
 
